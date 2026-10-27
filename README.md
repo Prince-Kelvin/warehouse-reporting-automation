@@ -1,97 +1,131 @@
-# Warehouse Reporting Automation Using Excel VBA
+# Warehouse Order Tracking & Reporting Automation
+
+**Excel VBA | Microsoft Excel | Operational Reporting | Data Consolidation**
 
 ## Project Overview
-
 **Role:** Warehouse Business Analyst  
 **Organization:** Al Khayyat Investments  
-**Tools:** Microsoft Excel, VBA Macros, Warehouse Management System (WMS) exports  
+**Tools:** Microsoft Excel, VBA Macros, Mnahattan Warehouse Management System (WMS) exports, Paragon Exports
 **Focus:** Process Automation, Operational Reporting, Data Cleaning, Fulfilment Monitoring
 
-## 1. Business Context
+During my time supporting warehouse operations at Al Khayyat Investments, I worked on an Excel VBA-based reporting process designed to consolidate operational data from multiple warehouse and transportation sources into a standardized order-tracking report.
 
-Warehouse operations depended on daily reports extracted from the Warehouse Management System (WMS) to support order picking, dispatch preparation, and next-day delivery planning.
+The process brought together order information, transportation plans, picking progress, quality assurance checks, and invoice handover records to provide a consolidated view of order fulfilment.
 
-The warehouse operated with a 4:00 PM order cut-off. Orders received after the cut-off were treated as next-day orders, requiring the warehouse team to prepare outbound orders in advance.
+The report was refreshed every 30 minutes to reflect updates in the underlying operational files and support timely monitoring of warehouse activities.
 
-Before the automation, the coordinator manually cleaned, consolidated, and structured multiple Excel exports to produce the daily operational report. This repetitive process took approximately 1–2 hours per reporting cycle.
+**Portfolio note:** This repository contains a reconstructed demonstration based on my recollection of the original workflow. The original macro source code and restricted operational input files are no longer available to me. All demonstration records are fictional, and the code developed for this portfolio is an independent recreation rather than the original company code.
 
-## 2. Problem Statement
+## Business Problem
 
-The manual reporting process created several operational challenges:
+Warehouse order tracking involved information maintained across multiple operational files and teams. Preparing a consolidated report manually required collecting, matching, and reviewing information from these different sources.
 
-- Significant time spent cleaning and consolidating exported data.
-- Repetitive preparation of the same report fields every working day.
-- Delayed access to a standardized view of order fulfilment progress.
-- Additional manual effort to organize completed, pending, and in-picking orders.
-- Less time available for reviewing operational information and supporting fulfilment decisions.
+This created several challenges:
 
-## 3. My Role and Contribution
+- Repetitive report preparation and data consolidation.
+- Difficulty obtaining a unified view of order progress across operational stages.
+- The need to match records consistently across separate workbooks.
+- Delays in producing an updated report for operational monitoring.
 
-I designed and implemented a macro-enabled Excel solution using VBA to automate the daily reporting process.
+The objective was to reduce repetitive reporting effort and provide a more consistent, consolidated view of order status.
 
-My contribution included:
+## Data Sources
 
-- Developing a VBA macro to process downloaded WMS Excel exports.
-- Automating the cleaning, consolidation, and structuring of operational data.
-- Standardizing the report layout and formatting.
-- Incorporating source order statuses and workbook rules to support fulfilment-status tracking.
-- Organizing order information into a consistent format for operational review.
+The original reporting process used five primary operational sources:
 
-## 4. Solution and Workflow
+| Source | Information used |
+|---|---|
+| Manhattan WMS | Order, shipment, customer, route, and order-detail information |
+| Paragon transportation file | Refined route and shipping information, including next-day delivery planning |
+| Outbound picking file | Picking status, picker information, picking times, and quantities |
+| Quality Assurance (QA) file | QA completion status and checks on picked orders |
+| Invoice reconciliation file | Reconciliation between Outbound and Transportation, including invoice handover status |
 
-The automated workflow was designed to simplify report preparation:
+A separate cut-off report provided the relevant 4:00 p.m. cut-off classification. The reconstructed demonstration models this as a separate input rather than treating it as a field sourced directly from Manhattan WMS.
 
-1. **Export:** Download the daily order data from the WMS.
-2. **Upload:** Load the exported Excel data into the automation workbook.
-3. **Process:** Run the VBA macro to clean, consolidate, and structure the data.
-4. **Standardize:** Generate the report using a consistent layout and formatting.
-5. **Review:** Use the resulting report to monitor order fulfilment progress and prepare for next-day delivery operations.
+## Operational Workflow
 
-### Key report fields
+The reporting process followed the warehouse order-fulfilment workflow:
 
-The standardized report included:
+1. **Order information:** Order and shipment details were obtained from Manhattan WMS.
+2. **Transportation planning:** The transportation team's Paragon file supplied refined route and delivery-planning information.
+3. **Picking:** Outbound staff picked the required items and recorded picking progress.
+4. **Quality assurance:** QA staff checked whether the picked order matched the request. Where an order was incomplete, QA could review the picking location and help complete it.
+5. **Invoice reconciliation and handover:** The invoice reconciliation process tracked the movement of invoices between Outbound and Transportation.
+6. **Consolidated reporting:** The reporting process brought the available records together into a detailed order-tracking report and summary.
 
-- Order number
-- Customer name
-- Delivery area and route
-- Invoice number and invoice generation time
-- Handover time to the transport team
-- Quantity of items picked
-- Wave number and the person who created the wave
-- Order type
-- Order fulfilment status
+For this reporting process, invoice handover to Transportation served as the indicator that an order had reached the relevant fulfilment handover stage. A picked order was not automatically treated as fulfilled.
 
-## 5. Business Impact
+## Automation Approach
 
-The solution improved the efficiency and consistency of daily warehouse reporting.
+The original solution used an Excel VBA macro-enabled workbook to automate repetitive reporting tasks.
 
-| Measure | Before automation | After automation |
-|---|---|---|
-| Report preparation time | Approximately 1–2 hours | Under 15 minutes |
-| Data preparation | Manual cleaning and consolidation | VBA-assisted processing |
-| Report structure | Manually prepared | Standardized layout |
-| Fulfilment visibility | Manual report review | Structured status tracking |
+The reconstructed portfolio implementation is designed around the following approach:
 
-**Estimated time reduction:** At least approximately 75%, based on the reported preparation times.
+- **Data consolidation:** Combine records from the five operational inputs and the separate cut-off report.
+- **Record matching:** Use Order Number as the primary key for matching corresponding records across sources.
+- **Shipment identifier parsing:** Extract the Order Number from the first seven characters of a shipment identifier, while retaining the department code, six-digit date segment, and order-type suffix as separate fields.
+- **Order-type classification:** Recognize suffixes such as `SO` for Sales Order and `IR` for Van Internal Order.
+- **Status visibility:** Preserve distinctions between picking progress, QA completion, invoice generation, and invoice handover.
+- **Standardized output:** Produce a consolidated order-tracking report and a summary for operational review.
+- **Fully automated refresh:** The original VBA reporting solution refreshed automatically every 30 minutes, reducing the need for manual report-refresh actions..
 
-The automation also helped make completed, pending, and in-picking orders easier to review, supporting operational visibility and next-day delivery preparation.
+The Paragon file was an input to the reporting process; route planning itself was performed by the transportation team, not by the VBA automation.
 
-*The time reduction is an estimate based on the reported before-and-after preparation times, not a formally measured time study.*
+## Reporting Outputs
 
-## 6. Skills Demonstrated
+The consolidated report supported review of order-level information such as:
 
-- Business process analysis
-- Excel VBA automation
-- Data cleaning and consolidation
-- Operational reporting
-- Requirements-to-solution translation
-- Fulfilment process understanding
-- Process improvement
+- Order number and customer
+- Area and route
+- Shipment and invoice details
+- Picking quantities and progress
+- Wave information and order type
+- Invoice generation and handover information
+- Relevant order status indicators
+- The `Picked & IDT Completed` metric represented orders for which all three conditions were satisfied: picking was completed, QA was marked Done, and the invoice had been handed over to Transportation. An order being picked alone was not sufficient to qualify.
 
-## 7. Confidentiality and Portfolio Approach
+The accompanying summary provided a more concise view of operational progress and outstanding activities.
 
-This case study describes the solution at a high level. Any demonstration workbook, screenshots, or sample reports published with the project should use fictional data and exclude confidential company information, customer details, internal system exports, and proprietary code.
+Management also used a separate Power BI dashboard to monitor warehouse performance, including daily order volumes, picking progress, invoice generation and handover, pending invoices, and orders by route. That dashboard was a separate reporting solution and was not solely developed by me as part of this VBA project.
 
-## Conclusion
+## Business Impact
 
-This project demonstrates how I applied business analysis and Excel automation to simplify a recurring operational process, standardize warehouse reporting, and improve visibility into fulfilment activities.
+Based on my experience with the original process:
+
+- **Before automation:** Report preparation typically took approximately 1–2 hours.
+- **After automation:** Report preparation took under 15 minutes.
+- **Estimated time reduction:** At least approximately 75%, depending on the starting preparation time.
+
+These figures are estimates based on my recollection of the operational process, not the results of a formal time-and-motion study.
+
+The automation reduced repetitive preparation work and made it easier to produce a consolidated view of order progress for operational monitoring.
+
+## Reconstructed Demonstration
+
+The portfolio version is intended to demonstrate the underlying analytical and automation concepts using synthetic data.
+
+It will include:
+
+- Fictional examples of the operational source files.
+- A documented order-matching and shipment-parsing approach.
+- Explicit status rules and assumptions.
+- Recreated VBA logic for consolidating data.
+- An expected-output sheet for validating the results.
+
+Where the original business rules cannot be verified from the available materials, they will be identified as assumptions rather than presented as confirmed historical logic.
+
+## Skills Demonstrated
+
+- Excel reporting and data consolidation
+- VBA automation design
+- Multi-source data integration
+- Record matching and data validation
+- Operational process analysis
+- Order-fulfilment reporting
+- Requirements interpretation
+- Business-focused documentation
+
+## Confidentiality
+
+This portfolio demonstration does not reproduce the original company's restricted source files, customer records, or proprietary VBA source code. Company-specific information is included only to describe my professional experience at a high level; the demonstration data and recreated implementation are intended for portfolio and learning purposes.
